@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코칭맘 웹진 성과 보고서 | 2026년 2월</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F6F1;
+  --surface: #FFFFFF;
+  --surface2: #F2EFE8;
+  --border: #E0DBD0;
+  --text: #211E18;
+  --muted: #8A8378;
+  --mono: 'DM Mono', monospace;
+  --serif: 'Noto Serif KR', serif;
+  --sans: 'Noto Sans KR', sans-serif;
+  --red: #B84A2E;
+  --red-bg: #FBF0ED;
+  --green: #2E7D5E;
+  --green-bg: #EBF5F0;
+  --gold: #9C7A2E;
+  --gold-bg: #FAF3E0;
+  --blue: #2A5FA5;
+  --blue-bg: #EBF0FA;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+/* ── 헤더 ── */
+.report-header {
+  background: var(--text);
+  color: var(--bg);
+  padding: 56px 0 44px;
+}
+.header-inner { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+.header-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(248,246,241,0.4);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.header-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+.header-title em { font-style: italic; color: #D4A843; }
+.header-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(248,246,241,0.35);
+  margin-bottom: 40px;
+}
+.header-summary {
+  font-size: 14px;
+  color: rgba(248,246,241,0.7);
+  line-height: 1.8;
+  max-width: 560px;
+  padding: 18px 24px;
+  border-left: 2px solid #D4A843;
+  background: rgba(255,255,255,0.04);
+}
+.header-summary strong { color: #F8F6F1; }
+
+/* ── KPI 바 ── */
+.kpi-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.kpi-bar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.kpi-item {
+  padding: 24px 0;
+  border-right: 1px solid var(--border);
+  padding-left: 24px;
+}
+.kpi-item:first-child { padding-left: 0; }
+.kpi-item:last-child { border-right: none; }
+.kpi-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.kpi-num {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.kpi-num.down { color: var(--red); }
+.kpi-num.up { color: var(--green); }
+.kpi-num.warn { color: var(--gold); }
+.kpi-delta {
+  font-family: var(--mono);
+  font-size: 10px;
+}
+.kpi-delta .d { color: var(--red); }
+.kpi-delta .u { color: var(--green); }
+.kpi-prev { color: var(--muted); margin-left: 4px; }
+
+/* ── 섹션 공통 ── */
+.section {
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── 토글 헤더 ── */
+.toggle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface);
+  transition: background 0.15s;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+.toggle-header:hover { background: var(--surface2); }
+.toggle-left { display: flex; align-items: center; gap: 20px; }
+.toggle-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.tag-content { background: var(--red-bg); color: var(--red); }
+.tag-reader { background: var(--blue-bg); color: var(--blue); }
+.tag-next { background: var(--gold-bg); color: var(--gold); }
+.tag-tech { background: var(--surface2); color: var(--muted); }
+.toggle-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+.toggle-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.toggle-right { display: flex; align-items: center; gap: 16px; }
+.toggle-preview {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  line-height: 1.5;
+}
+.toggle-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.toggle-arrow.open { transform: rotate(180deg); }
+
+/* ── 토글 바디 ── */
+.toggle-body {
+  display: none;
+  padding: 0 32px 36px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.toggle-body.open { display: block; }
+.toggle-body-inner {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+}
+
+/* ── 공통 컴포넌트 ── */
+.insight {
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.85;
+  border-left: 3px solid var(--border);
+  background: var(--surface2);
+  border-radius: 0 2px 2px 0;
+}
+.insight.red { border-left-color: var(--red); background: var(--red-bg); }
+.insight.red strong { color: var(--red); }
+.insight.green { border-left-color: var(--green); background: var(--green-bg); }
+.insight.green strong { color: var(--green); }
+.insight.gold { border-left-color: var(--gold); background: var(--gold-bg); }
+.insight.gold strong { color: var(--gold); }
+
+.sub-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.data-table th {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.data-table tr:hover td { background: var(--surface2); }
+.mono { font-family: var(--mono); font-size: 12px; }
+.up-t { color: var(--green); font-family: var(--mono); font-size: 12px; font-weight: 600; }
+.down-t { color: var(--red); font-family: var(--mono); font-size: 12px; }
+.muted-t { color: var(--muted); font-family: var(--mono); font-size: 11px; }
+.strong-t { font-weight: 600; color: var(--text); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+.card-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.card-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.card-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.badge-red { background: var(--red); color: white; }
+.badge-gold { background: var(--gold); color: white; }
+.badge-green { background: var(--green); color: white; }
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.bar-label { font-size: 12px; color: var(--text); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { background: var(--surface2); border-radius: 2px; height: 22px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 2px; display: flex; align-items: center; padding-left: 8px; font-family: var(--mono); font-size: 10px; color: white; }
+.bar-val { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+
+.opp-card {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 12px;
+  background: var(--surface);
+}
+.opp-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.opp-card h3 { font-size: 15px; font-weight: 600; line-height: 1.4; }
+.opp-card p { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 10px; }
+.opp-rec {
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-left: 2px solid var(--border);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ── 진단 요약 박스 (상단에 항상 보이는 한줄 진단) ── */
+.diagnosis-bar {
+  background: var(--text);
+  color: var(--bg);
+  padding: 16px 32px;
+}
+.diagnosis-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.diag-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #D4A843;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.diag-text { font-size: 13px; color: rgba(248,246,241,0.8); line-height: 1.6; }
+.diag-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+
+/* ── 시리즈 행 ── */
+.series-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 64px 70px 64px 60px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.series-row.header {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+}
+.series-row .num { font-family: var(--mono); font-size: 12px; text-align: right; }
+
+/* ── AI 카드 ── */
+.ai-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ai-source-name { font-size: 14px; font-weight: 600; }
+.ai-source-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px; }
+.ai-sess { font-family: var(--serif); font-size: 40px; font-weight: 700; line-height: 1; }
+.ai-engage { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: right; margin-top: 4px; }
+
+/* ── 푸터 ── */
+.report-footer {
+  padding: 32px;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--muted); }
+.footer-note { font-family: var(--mono); font-size: 9px; color: var(--border); letter-spacing: 0.08em; }
+
+@media (max-width: 720px) {
+  .kpi-bar-inner { grid-template-columns: repeat(3, 1fr); }
+  .kpi-item:nth-child(3) { border-right: none; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .series-row { grid-template-columns: 1fr 52px 52px 56px; }
+  .series-row .hide-mobile { display: none; }
+  .toggle-header { padding: 20px; }
+  .toggle-body { padding: 0 20px 28px; }
+  .bar-row { grid-template-columns: 100px 1fr 44px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── 헤더 ── -->
+<header class="report-header">
+  <div class="header-inner">
+    <div class="header-label">월간 웹진 성과 보고서 · Coaching Mom</div>
+    <h1 class="header-title">February <em>2026</em></h1>
+    <div class="header-date">기준: 2026.02.01 – 02.28 &nbsp;|&nbsp; 비교: 2026.01.01 – 01.31 &nbsp;|&nbsp; GSC + GA4</div>
+    <div class="header-summary">
+      이번 달 구글 노출이 <strong>45% 급증</strong>했으나 방문자는 줄었습니다. 핵심 원인은 「요리사」 키워드 단 하나 — 우리와 관계없는 검색어에 40,798회 노출되며 통계를 왜곡했습니다. <strong>실질 콘텐츠 경쟁력은 이상 없습니다.</strong> 다만 「화내지 말고 이렇게」 시리즈 클릭이 전반적으로 하락해 제목 수정이 필요합니다.
+    </div>
+  </div>
+</header>
+
+<!-- ── KPI 바 ── -->
+<div class="kpi-bar">
+  <div class="kpi-bar-inner">
+    <div class="kpi-item">
+      <div class="kpi-label">총 방문자</div>
+      <div class="kpi-num down">1,506</div>
+      <div class="kpi-delta"><span class="d">▼ −869 (−37%)</span><span class="kpi-prev">전월 2,375</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">검색 노출</div>
+      <div class="kpi-num warn">105,062</div>
+      <div class="kpi-delta"><span class="u">▲ +32,850 (+45%)</span><span class="kpi-prev">전월 72,212</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">검색 클릭</div>
+      <div class="kpi-num down">343</div>
+      <div class="kpi-delta"><span class="d">▼ −70 (−17%)</span><span class="kpi-prev">전월 413</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">평균 CTR</div>
+      <div class="kpi-num down">0.33%</div>
+      <div class="kpi-delta"><span class="d">▼ −0.25%p</span><span class="kpi-prev">전월 0.57%</span></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">평균 순위</div>
+      <div class="kpi-num up">6.0위</div>
+      <div class="kpi-delta"><span class="u">▲ 0.3 개선</span><span class="kpi-prev">전월 6.3위</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 이달의 진단 한줄 ── -->
+<div class="diagnosis-bar">
+  <div class="diagnosis-inner">
+    <div class="diag-label">이달의 진단</div>
+    <div class="diag-divider"></div>
+    <div class="diag-text">
+      콘텐츠 순위는 유지 중. <strong style="color:#F8F6F1;">제목이 클릭을 못 만들고 있습니다.</strong> &nbsp;·&nbsp;
+      AI 유입 3배 증가 (Gemini·Claude 신규 진입) — 품질 독자 유입 채널로 성장 중.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 01. 이달의 콘텐츠 성과 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <button class="toggle-header" onclick="toggleSection('s1')">
+    <div class="toggle-left">
+      <span class="toggle-tag tag-content">콘텐츠 성과</span>
+      <div>
+        <div class="toggle-title">📰 이달의 콘텐츠 성과</div>
+        <div class="toggle-subtitle">어떤 기사가 읽혔나 · 섹션별 현황</div>
+      </div>
+    </div>
+    <div class="toggle-right">
+      <div class="toggle-preview">
+        「공부에 손 놓은 아이」 66클릭 1위<br>
+        핵심 시리즈 전편 하락세 — 제목 개선 필요
+      </div>
+      <div class="toggle-arrow" id="arrow-s1">▼</div>
+    </div>
+  </button>
+  <div class="toggle-body" id="body-s1">
+    <div class="toggle-body-inner">
+
+      <!-- 시리즈 성과 -->
+      <div class="sub-label" style="margin-bottom:14px;">「화내지 말고 이렇게」 시리즈 — 전체 클릭의 42% 담당</div>
+      <div class="insight red" style="margin-bottom:16px;">
+        <strong>시리즈 6편 모두 클릭 하락 중입니다.</strong> 노출은 유지되고 있어 콘텐츠 자체의 문제가 아닌 제목의 문제입니다. 특히 「화내는 아이에게」는 순위 4.7위 · 노출 1,471회에도 CTR이 0.2%로 가장 낮습니다.
+      </div>
+      <div class="series-row header">
+        <div>편 제목</div>
+        <div class="num">클릭</div>
+        <div class="num">전월비</div>
+        <div class="num hide-mobile">노출</div>
+        <div class="num">CTR</div>
+        <div class="num">순위</div>
+      </div>
+      <div class="series-row">
+        <div><strong>공부에 손 놓은 아이</strong></div>
+        <div class="num" style="color:var(--red);font-weight:700;">66</div>
+        <div class="num down-t">▼ −3</div>
+        <div class="num mono hide-mobile">3,230</div>
+        <div class="num mono">2.04%</div>
+        <div class="num mono">8.2위</div>
+      </div>
+      <div class="series-row">
+        <div>사춘기에 접어든 아이</div>
+        <div class="num">27</div>
+        <div class="num down-t">▼ −13</div>
+        <div class="num mono hide-mobile">3,730</div>
+        <div class="num" style="color:var(--red);font-family:var(--mono);font-size:12px;">0.72%</div>
+        <div class="num mono">9.6위</div>
+      </div>
+      <div class="series-row">
+        <div>게임에 빠진 아이</div>
+        <div class="num">22</div>
+        <div class="num down-t">▼ −15</div>
+        <div class="num mono hide-mobile">1,933</div>
+        <div class="num mono">1.14%</div>
+        <div class="num mono">8.6위</div>
+      </div>
+      <div class="series-row">
+        <div>거짓말 하는 아이</div>
+        <div class="num">13</div>
+        <div class="num down-t">▼ −20</div>
+        <div class="num mono hide-mobile">1,443</div>
+        <div class="num mono">0.90%</div>
+        <div class="num mono">5.2위</div>
+      </div>
+      <div class="series-row">
+        <div>욕하는 아이</div>
+        <div class="num">6</div>
+        <div class="num down-t">▼ −4</div>
+        <div class="num mono hide-mobile">565</div>
+        <div class="num mono">1.06%</div>
+        <div class="num mono">8.2위</div>
+      </div>
+      <div class="series-row" style="border-bottom:none;">
+        <div>화내는 아이에게 <span style="font-family:var(--mono);font-size:10px;color:var(--red);">⚠ 긴급</span></div>
+        <div class="num">3</div>
+        <div class="num down-t">▼ −6</div>
+        <div class="num mono hide-mobile">1,471</div>
+        <div class="num" style="color:var(--red);font-family:var(--mono);font-size:12px;font-weight:700;">0.20%</div>
+        <div class="num mono">4.7위</div>
+      </div>
+
+      <div style="height:24px;"></div>
+
+      <!-- 섹션별 성과 -->
+      <div class="sub-label" style="margin-bottom:14px;">섹션별 콘텐츠 성과</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>섹션</th><th>카테고리</th><th>클릭</th><th>전월비</th><th>노출</th><th>CTR</th><th>순위</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="font-family:var(--mono);font-size:10px;background:var(--surface2);padding:2px 6px;">coaching</span></td>
+            <td>moms-coaching</td>
+            <td class="strong-t" style="color:var(--red);">154</td>
+            <td class="down-t">▼ −52</td>
+            <td class="mono">15,842</td>
+            <td class="mono">0.36%</td>
+            <td class="mono">6.8위</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-size:10px;background:var(--surface2);padding:2px 6px;">education</span></td>
+            <td>career-roadmap</td>
+            <td class="mono">28</td>
+            <td class="down-t">▼ −12</td>
+            <td class="mono" style="color:var(--gold);font-weight:600;">54,280</td>
+            <td class="mono" style="color:var(--red);">0.09%</td>
+            <td class="mono">6.2위</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-size:10px;background:var(--surface2);padding:2px 6px;">education</span></td>
+            <td>strategy</td>
+            <td class="mono">23</td>
+            <td class="up-t">▲ +6</td>
+            <td class="mono">9,172</td>
+            <td class="mono">0.34%</td>
+            <td class="mono">7.2위</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-size:10px;background:var(--surface2);padding:2px 6px;">education</span></td>
+            <td>about-major 🔥</td>
+            <td class="mono">13</td>
+            <td class="up-t">▲ +4</td>
+            <td class="mono">1,069</td>
+            <td class="mono" style="color:var(--green);font-weight:600;">1.25%</td>
+            <td class="mono">7.3위</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-size:10px;background:var(--surface2);padding:2px 6px;">coaching</span></td>
+            <td>coa-column 🔥</td>
+            <td class="mono">7</td>
+            <td class="up-t">▲ +5</td>
+            <td class="mono">544</td>
+            <td class="mono" style="color:var(--green);font-weight:700;">1.47%</td>
+            <td class="mono">8.9위</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="insight green">
+        <strong>성장 중인 섹션 — about-major (학과 소개) & coa-column (코칭 칼럼).</strong> 두 섹션 모두 CTR 1%대로 전체 평균(0.33%)의 4배 수준. 특히 「곤충학과」 편은 CTR 2.88%로 독보적 — 이색·틈새 학과 콘텐츠에 대한 독자 수요가 검증됐습니다.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 02. 독자는 누구인가 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <button class="toggle-header" onclick="toggleSection('s2')">
+    <div class="toggle-left">
+      <span class="toggle-tag tag-reader">독자 분석</span>
+      <div>
+        <div class="toggle-title">👥 독자는 누구인가</div>
+        <div class="toggle-subtitle">유입 채널 재분류 · AI 유입 특이사항</div>
+      </div>
+    </div>
+    <div class="toggle-right">
+      <div class="toggle-preview">
+        방문자 감소는 Direct 효과 소멸 — 검색은 선방<br>
+        네이버 −28% vs 구글 −5% · AI 3배 증가
+      </div>
+      <div class="toggle-arrow" id="arrow-s2">▼</div>
+    </div>
+  </button>
+  <div class="toggle-body" id="body-s2">
+    <div class="toggle-body-inner">
+
+      <!-- 채널 재분류 안내 -->
+      <div class="insight" style="margin-bottom:20px;font-size:12px;">
+        GA4는 네이버 검색 유입을 <code>naver/organic</code>과 <code>m.search.naver.com/referral</code>로 분리 집계합니다. 아래는 실질 유입 경로 기준으로 재분류한 수치입니다. 네이버 블로그·북마크 경유는 검색이 아닌 Referral로 별도 분류했습니다.
+      </div>
+
+      <!-- 채널 테이블 -->
+      <div class="sub-label" style="margin-bottom:12px;">유입 채널 현황 (재분류 기준)</div>
+      <table class="data-table" style="margin-bottom:20px;">
+        <thead>
+          <tr><th>채널</th><th>2월</th><th>1월</th><th>증감</th><th>증감률</th><th>점유</th><th>성격</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Direct</strong></td>
+            <td class="mono">545</td>
+            <td class="mono">1,205</td>
+            <td class="down-t">▼ −660</td>
+            <td class="down-t">−54.8%</td>
+            <td class="mono">33%</td>
+            <td style="font-size:12px;color:var(--muted);">잡지 발행 주기 효과 — 1월 신호 발송 이후 정상 복귀</td>
+          </tr>
+          <tr>
+            <td><strong>구글 검색</strong></td>
+            <td class="mono">473</td>
+            <td class="mono">499</td>
+            <td class="mono" style="color:var(--muted);">▼ −26</td>
+            <td class="mono" style="color:var(--muted);">−5.2%</td>
+            <td class="mono">29%</td>
+            <td style="font-size:12px;color:var(--green);">사실상 현상 유지 — 검색 경쟁력 안정적</td>
+          </tr>
+          <tr style="background:var(--red-bg);">
+            <td><strong>네이버 검색</strong> <span style="font-family:var(--mono);font-size:9px;color:var(--red);">⚠</span></td>
+            <td class="mono">301</td>
+            <td class="mono">419</td>
+            <td class="down-t">▼ −118</td>
+            <td class="down-t">−28.2%</td>
+            <td class="mono">18%</td>
+            <td style="font-size:12px;color:var(--red);">구글 대비 낙폭 큼 — 네이버 순위 별도 점검 필요</td>
+          </tr>
+          <tr>
+            <td><strong>Internal</strong></td>
+            <td class="mono">220</td>
+            <td class="mono">293</td>
+            <td class="down-t">▼ −73</td>
+            <td class="down-t">−24.9%</td>
+            <td class="mono">13%</td>
+            <td style="font-size:12px;color:var(--muted);">SS코칭 유입 감소가 주원인 — 바인매거진은 +15 증가</td>
+          </tr>
+          <tr>
+            <td><strong>SNS</strong></td>
+            <td class="mono">24</td>
+            <td class="mono">15</td>
+            <td class="up-t">▲ +9</td>
+            <td class="up-t">+60%</td>
+            <td class="mono">1.5%</td>
+            <td style="font-size:12px;color:var(--muted);">페이스북 +15 증가 — 공유 확산 중</td>
+          </tr>
+          <tr>
+            <td><strong>AI</strong></td>
+            <td class="mono">22</td>
+            <td class="mono">8</td>
+            <td class="up-t">▲ +14</td>
+            <td class="up-t" style="font-weight:700;">+175%</td>
+            <td class="mono">1.3%</td>
+            <td style="font-size:12px;color:var(--green);">Gemini·Claude 신규 진입 — 고참여율 채널</td>
+          </tr>
+          <tr>
+            <td style="color:var(--muted);">네이버 블로그·북마크</td>
+            <td class="mono muted-t">10</td>
+            <td class="mono muted-t">6</td>
+            <td class="up-t">▲ +4</td>
+            <td class="muted-t">—</td>
+            <td class="mono muted-t">0.6%</td>
+            <td style="font-size:12px;color:var(--muted);">블로그 언급·북마크 경유 Referral</td>
+          </tr>
+          <tr>
+            <td style="color:var(--muted);">기타 (빙·Referral 등)</td>
+            <td class="mono muted-t">38</td>
+            <td class="mono muted-t">55</td>
+            <td class="muted-t">▼ −17</td>
+            <td class="muted-t">—</td>
+            <td class="mono muted-t">2.3%</td>
+            <td style="font-size:12px;color:var(--muted);">빙 16 · searchadvisor 13 · 기타</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="insight red" style="margin-bottom:20px;">
+        <strong>방문자 감소의 77%는 Direct 감소 한 가지입니다.</strong> 전체 감소분 −861세션 중 −660이 Direct — 1월 신호 발행 효과가 사라진 것으로, 콘텐츠 문제가 아닙니다. 검색 유입(구글+네이버)은 −144 감소했으나 구글은 −26으로 선방했고, 네이버가 −118로 상대적으로 많이 빠졌습니다. <strong>네이버 서치어드바이저에서 순위 추이 별도 확인을 권장합니다.</strong>
+      </div>
+
+      <!-- Internal 채널 상세 -->
+      <div class="sub-label" style="margin-bottom:12px;">Internal 채널 상세</div>
+      <div class="two-col" style="margin-bottom:20px;">
+        <table class="data-table">
+          <thead><tr><th>소스</th><th>2월</th><th>전월비</th><th>주요 유입 페이지</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>sscoaching.co.kr</td>
+              <td class="mono">170</td>
+              <td class="down-t">▼ −79</td>
+              <td style="font-size:12px;color:var(--muted);">/category/education (100세션 집중)</td>
+            </tr>
+            <tr>
+              <td style="color:var(--green);font-weight:600;">vinemagazine.co.kr</td>
+              <td class="mono">19</td>
+              <td class="up-t">▲ +15</td>
+              <td style="font-size:12px;color:var(--green);">홈 15세션 · 참여율 93%</td>
+            </tr>
+            <tr>
+              <td>wawacenter.com</td>
+              <td class="mono">16</td>
+              <td class="up-t">▲ +7</td>
+              <td style="font-size:12px;color:var(--muted);">/category/education 전량 유입</td>
+            </tr>
+            <tr>
+              <td style="color:var(--muted);">educo 계열</td>
+              <td class="mono muted-t">15</td>
+              <td class="down-t">▼ −16</td>
+              <td style="font-size:12px;color:var(--muted);">app·eep 등 감소 추세</td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <div class="insight green" style="margin-bottom:12px;font-size:12px;">
+            <strong>바인매거진 유입 +15, 참여율 93%.</strong> 바인매거진에서 코칭맘으로 넘어온 독자가 실제로 잘 읽고 있습니다. 두 매체 간 콘텐츠 연결고리를 강화할수록 효과가 커질 채널입니다.
+          </div>
+          <div class="insight" style="font-size:12px;">
+            <strong>SS코칭 −79의 주원인은 /category/education 링크 감소.</strong> SS코칭 사이트의 education 카테고리 링크 위치나 노출 방식이 바뀐 것으로 추정됩니다. SS코칭 측 페이지 변경 여부 확인이 필요합니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 유입 상세 -->
+      <div class="sub-label" style="margin-bottom:12px;">AI 유입 상세</div>
+      <div class="insight green" style="margin-bottom:16px;">
+        <strong>AI가 코칭맘을 추천하기 시작했습니다.</strong> Gemini(10세션)와 Claude(5세션)가 신규 진입. 특히 Claude 유입의 참여율은 80% — ChatGPT(14.3%), Perplexity(20%)와 비교해 압도적으로 높습니다. Claude가 추천한 독자는 콘텐츠를 끝까지 읽고 있다는 의미입니다.
+      </div>
+      <div class="three-col" style="margin-bottom:16px;">
+        <div class="ai-card">
+          <div>
+            <div class="ai-source-name">Gemini</div>
+            <div class="ai-source-sub">홈(/) 직접 추천 · 신규</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;">참여율 43.8%</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-top:2px;">▲ +10 (신규)</div>
+          </div>
+          <div class="ai-sess" style="color:var(--green);">10</div>
+        </div>
+        <div class="ai-card">
+          <div>
+            <div class="ai-source-name">Claude</div>
+            <div class="ai-source-sub">코칭·심리 콘텐츠 추천 · 신규</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-top:6px;">참여율 80% 🔥</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--green);margin-top:2px;">▲ +5 (신규)</div>
+          </div>
+          <div class="ai-sess" style="color:var(--green);">5</div>
+        </div>
+        <div class="ai-card">
+          <div>
+            <div class="ai-source-name">ChatGPT</div>
+            <div class="ai-source-sub">진로·도서 정보 쿼리</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px;">참여율 14.3%</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--red);margin-top:2px;">▼ −1</div>
+          </div>
+          <div class="ai-sess" style="color:var(--muted);font-size:34px;">3</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sub-label" style="margin-bottom:10px;">Claude 추천 페이지 (참여율 100%)</div>
+          <table class="data-table">
+            <thead><tr><th>페이지</th><th>세션</th></tr></thead>
+            <tbody>
+              <tr><td>엄마의 말 연습법</td><td class="mono up-t">1</td></tr>
+              <tr><td>심리학과 알아보기</td><td class="mono up-t">1</td></tr>
+              <tr><td>코칭 카테고리</td><td class="mono up-t">1</td></tr>
+              <tr><td>moms-coaching 기타</td><td class="mono up-t">2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="sub-label" style="margin-bottom:10px;">주목할 외부 유입</div>
+          <table class="data-table">
+            <thead><tr><th>출처</th><th>세션</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>facebook.com</td>
+                <td class="mono up-t">23 ▲</td>
+                <td class="muted-t">+15, 공유 확산 중</td>
+              </tr>
+              <tr>
+                <td style="color:var(--green);font-weight:600;">kcoach.or.kr</td>
+                <td class="mono">1</td>
+                <td style="color:var(--green);font-size:11px;">한국코치협회 이메일</td>
+              </tr>
+              <tr>
+                <td style="color:var(--green);font-weight:600;">korea.kr</td>
+                <td class="mono">1</td>
+                <td style="color:var(--green);font-size:11px;">정부 사이트 유입</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="insight green" style="margin-top:12px;font-size:12px;">
+            <strong>한국코치협회 & 정부 사이트 유입.</strong> 공신력 있는 기관에서 링크가 발생한 것으로, 어떤 글이 언급됐는지 GA4에서 확인 후 협력 관계로 이어갈 가치가 있습니다.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 03. 다음 호 콘텐츠 힌트 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <button class="toggle-header" onclick="toggleSection('s3')">
+    <div class="toggle-left">
+      <span class="toggle-tag tag-next">기획 힌트</span>
+      <div>
+        <div class="toggle-title">📌 다음 호 콘텐츠 힌트</div>
+        <div class="toggle-subtitle">독자가 검색하고 있는 것 · 제작 기회 키워드</div>
+      </div>
+    </div>
+    <div class="toggle-right">
+      <div class="toggle-preview">
+        자존감·청소년 심리 — 순위 1위 이미 진입<br>
+        커미션 뜻 — Z세대 자녀 이해 콘텐츠 기회
+      </div>
+      <div class="toggle-arrow" id="arrow-s3">▼</div>
+    </div>
+  </button>
+  <div class="toggle-body" id="body-s3">
+    <div class="toggle-body-inner">
+
+      <div class="insight gold">
+        <strong>신규 키워드 984개 분석 결과 — 독자가 지금 검색하고 있지만 코칭맘이 아직 답하지 못한 주제들입니다.</strong> 아래는 이미 구글 1~2위 진입 중인 키워드들로, 콘텐츠만 보강하면 즉시 클릭으로 전환 가능합니다.
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-head">
+          <span class="badge badge-red">즉시 제작 권장</span>
+          <h3>자존감·청소년 심리 — 핵심 독자층의 핵심 고민</h3>
+        </div>
+        <p>「자존감 높이기」 110회 노출·순위 1위, 「청소년 우울증」 42회·순위 1위, 「심리학과 진로」 47회·순위 1위. 전부 신규 진입 키워드로 코칭맘 핵심 독자(학부모)가 자녀 심리 문제를 검색하는 수요입니다. 이미 1위인 상태이므로 콘텐츠를 올리면 즉시 클릭이 발생합니다.</p>
+        <div class="opp-rec" style="border-left-color:var(--red);">
+          <strong style="color:var(--red);">제안 콘텐츠:</strong> 「자녀 자존감 높이는 7가지 대화법」 「청소년 우울증 초기 신호 — 부모가 먼저 알아야 할 것들」 (코칭 전문가 기고 형식 권장)
+        </div>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-head">
+          <span class="badge badge-red">즉시 제작 권장</span>
+          <h3>시리즈 신규 편 — 「스마트폰에 빠진 아이」</h3>
+        </div>
+        <p>「화내지 말고 이렇게」 시리즈가 전체 클릭의 42%를 담당하지만 전 편이 하락 중입니다. 시리즈에 신규 편을 추가하면 기존 시리즈 전체에 내부 링크가 생겨 하락을 만회하는 효과가 있습니다. 스마트폰·게임 관련 키워드는 학부모 검색 수요가 꾸준합니다.</p>
+        <div class="opp-rec" style="border-left-color:var(--red);">
+          <strong style="color:var(--red);">제안 콘텐츠:</strong> 「스마트폰에 빠진 아이 화내지 말고 이렇게」 「시험 스트레스 받는 아이 화내지 말고 이렇게」
+        </div>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-head">
+          <span class="badge badge-gold">단기 제작</span>
+          <h3>커미션 뜻 — Z세대 자녀 이해 콘텐츠</h3>
+        </div>
+        <p>「커미션 뜻」 708회 노출·순위 1위, 관련 키워드 41개 합산 486회 노출. 그림 커미션은 Z세대 자녀들의 주요 관심사이자 부업 수단입니다. 학부모가 자녀의 커미션 활동을 이해하고 지도하는 각도로 접근하면 코칭맘 독자층과 완벽히 매칭됩니다. 단, 단순 뜻 설명은 구글이 직접 보여줘서 클릭이 안 일어납니다 — 스토리 중심으로 기획해야 합니다.</p>
+        <div class="opp-rec" style="border-left-color:var(--gold);">
+          <strong style="color:var(--gold);">제안 콘텐츠:</strong> 「커미션이 뭐예요? — 우리 아이가 그림 커미션에 빠진 이유」 뜻 설명 + 자녀 이해 가이드 + 수익화 시 주의점 구성.
+        </div>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-head">
+          <span class="badge badge-gold">단기 제작</span>
+          <h3>학과 소개 시리즈 확장 — 「심리학과」 「요리학과」</h3>
+        </div>
+        <p>about-major 섹션은 8개 페이지만으로 CTR 1.25%를 기록 중입니다. 「곤충학과」 편의 성공 공식은 명확합니다 — 이색성 + 취업 현실 + 학부모 관점. 신규 키워드에서 「심리학과 진로」 47회·1위, 「요리학과」 관련 수요가 확인됩니다. 요리사 키워드(40,798회 노출) 수요를 「요리학과 진학 안내」 콘텐츠로 전환할 수 있습니다.</p>
+        <div class="opp-rec" style="border-left-color:var(--gold);">
+          <strong style="color:var(--gold);">제안 콘텐츠:</strong> 「심리학과 졸업 후 진로·취업 현실」 「요리사가 되려면 — 요리학과 완전 정리」
+        </div>
+      </div>
+
+      <!-- 독자 관심사 요약 -->
+      <div class="sub-label" style="margin-top:8px; margin-bottom:14px;">검색 키워드로 본 독자 관심사 지형</div>
+      <div class="two-col">
+        <div>
+          <div class="bar-row">
+            <span class="bar-label">사춘기·자녀심리</span>
+            <div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--red);">1,423 노출</div></div>
+            <span class="bar-val">클릭3</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">진로·학과 탐색</span>
+            <div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--gold);">522 노출</div></div>
+            <span class="bar-val">클릭0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">교육과정·정책</span>
+            <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--gold);">3,223 노출</div></div>
+            <span class="bar-val">클릭0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Z세대 문화이해</span>
+            <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--blue);">486 노출</div></div>
+            <span class="bar-val">클릭0</span>
+          </div>
+        </div>
+        <div class="insight" style="margin-bottom:0;">
+          독자들이 가장 많이 검색하는 건 <strong>자녀 심리·대화법</strong> 관련입니다. 사춘기, 자존감, 게임, 거짓말, 욕설 — 모두 「화내지 말고 이렇게」 시리즈가 이미 다루는 주제들입니다. 시리즈를 계속 확장하면서, 틈새 키워드인 <strong>커미션·Z세대 문화</strong> 쪽으로 새 콘텐츠를 추가하면 새로운 독자층을 끌어올 수 있습니다.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 04. 기술 개선 사항 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <button class="toggle-header" onclick="toggleSection('s4')">
+    <div class="toggle-left">
+      <span class="toggle-tag tag-tech">기술 / 담당자</span>
+      <div>
+        <div class="toggle-title">⚙️ 기술 개선 사항</div>
+        <div class="toggle-subtitle">제목 태그 수정 · 키워드 구조 진단</div>
+      </div>
+    </div>
+    <div class="toggle-right">
+      <div class="toggle-preview">
+        「화내는 아이에게」 제목 긴급 수정 필요<br>
+        「페르소나 뜻」 순위 2위 · 클릭 0 — 즉시 개선 가능
+      </div>
+      <div class="toggle-arrow" id="arrow-s4">▼</div>
+    </div>
+  </button>
+  <div class="toggle-body" id="body-s4">
+    <div class="toggle-body-inner">
+
+      <div class="sub-label" style="margin-bottom:14px;">제목(Title) 수정 우선순위</div>
+      <table class="data-table" style="margin-bottom:24px;">
+        <thead>
+          <tr><th>우선순위</th><th>키워드 / 페이지</th><th>노출</th><th>현재 순위</th><th>CTR</th><th>수정 방향</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-red">긴급</span></td>
+            <td><strong>화내는 아이에게 (시리즈)</strong></td>
+            <td class="mono">1,471</td>
+            <td class="mono up-t">4.7위</td>
+            <td class="mono" style="color:var(--red);font-weight:700;">0.20%</td>
+            <td style="font-size:12px;color:var(--muted);">「아이가 자꾸 화를 낸다면 — 감정 코치의 대화법」으로 변경</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">긴급</span></td>
+            <td><strong>사춘기에 접어든 아이 (시리즈)</strong></td>
+            <td class="mono">3,730</td>
+            <td class="mono">9.6위</td>
+            <td class="mono" style="color:var(--red);">0.72%</td>
+            <td style="font-size:12px;color:var(--muted);">제목에 「대화법·소통」 직접 포함</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">긴급</span></td>
+            <td><strong>페르소나 뜻</strong></td>
+            <td class="mono">1,908</td>
+            <td class="mono up-t">2.0위</td>
+            <td class="mono" style="color:var(--red);">0%</td>
+            <td style="font-size:12px;color:var(--muted);">「페르소나란? 뜻·유래·심리학적 의미」로 변경</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-gold">단기</span></td>
+            <td>2022 개정 교육과정 (페이지 리라이팅)</td>
+            <td class="mono">3,223</td>
+            <td class="mono">3~4위</td>
+            <td class="mono" style="color:var(--red);">0%</td>
+            <td style="font-size:12px;color:var(--muted);">「학년별 달라지는 것」 포함, 메타 디스크립션 구체화</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-gold">단기</span></td>
+            <td>거짓말 하는 아이 (소제목 앵커 정리)</td>
+            <td class="mono">1,443</td>
+            <td class="mono">5.2위</td>
+            <td class="mono">0.90%</td>
+            <td style="font-size:12px;color:var(--muted);">소제목 앵커(#) noindex 처리로 클릭 분산 방지</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sub-label" style="margin-bottom:14px;">키워드 구조 이슈</div>
+      <div class="two-col">
+        <div class="insight red">
+          <strong>「사춘기」 키워드 — 경쟁 페이지 12개</strong><br>
+          같은 키워드를 잡으려는 페이지가 12개라 구글이 어디를 상위에 올릴지 결정하지 못하고 있습니다. 앵커 페이지 1개를 지정하고 나머지 페이지에서 내부 링크를 몰아줘야 합니다.
+        </div>
+        <div class="insight gold">
+          <strong>「2022 개정 교육과정」 — 표기 5가지 분열</strong><br>
+          띄어쓰기 차이로 5가지 표기 변형이 각각 다른 쿼리로 집계됩니다. 합산 3,223회 노출·클릭 0. 메타 디스크립션에 핵심 변경 사항 2~3개를 직접 명시하면 CTR이 즉시 개선됩니다.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 05. 개선 과제 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <button class="toggle-header" onclick="toggleSection('s5')">
+    <div class="toggle-left">
+      <span class="toggle-tag" style="background:#F0EBF8;color:#6B3FA0;">개선 과제</span>
+      <div>
+        <div class="toggle-title">🔍 데이터 기반 개선 과제</div>
+        <div class="toggle-subtitle">제목·구조·콘텐츠 유형별 문제 진단 및 수정 방향</div>
+      </div>
+    </div>
+    <div class="toggle-right">
+      <div class="toggle-preview">
+        구글 vs 네이버 행동 차이 — 제목 불일치 진단<br>
+        coaching-q-a 27개 페이지 방치된 자산
+      </div>
+      <div class="toggle-arrow" id="arrow-s5">▼</div>
+    </div>
+  </button>
+  <div class="toggle-body" id="body-s5">
+    <div class="toggle-body-inner">
+
+      <!-- 개선 과제 ① -->
+      <div class="sub-label" style="margin-bottom:14px;">① 즉시 수정 — 제목·메타 불일치</div>
+
+      <div class="insight red" style="margin-bottom:16px;">
+        <strong>같은 페이지인데 구글 vs 네이버 독자 행동이 완전히 다릅니다.</strong> 구글에서 유입된 독자는 빠르게 이탈하고, 네이버에서 유입된 독자는 오래 읽습니다. 구글이 연결하는 검색어와 실제 콘텐츠 내용이 맞지 않는다는 신호입니다.
+      </div>
+
+      <table class="data-table" style="margin-bottom:24px;">
+        <thead>
+          <tr><th>페이지</th><th>구글 체류</th><th>구글 참여율</th><th>네이버 체류</th><th>네이버 참여율</th><th>진단</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>화내는 아이에게</strong><br><span class="muted-t">화내지 말고 이렇게</span></td>
+            <td class="mono down-t">38초</td>
+            <td class="mono down-t">20%</td>
+            <td class="mono up-t">357초</td>
+            <td class="mono up-t">67%</td>
+            <td style="font-size:12px;">구글에서 「화내는 아이」 검색자는 즉각적인 대처법을 원하는데, 제목이 그 의도를 충족시키지 못함</td>
+          </tr>
+          <tr>
+            <td><strong>엄마의 말 연습법</strong></td>
+            <td class="mono down-t">22초</td>
+            <td class="mono down-t">33%</td>
+            <td class="mono up-t">81초</td>
+            <td class="mono up-t">100%</td>
+            <td style="font-size:12px;">구글 유입 키워드와 내용 간 불일치. 네이버 독자는 의도적으로 찾아온 충성 독자</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-bottom:24px;">
+        <div class="opp-card" style="margin-bottom:0;">
+          <div class="opp-head">
+            <span class="badge badge-red">긴급</span>
+            <h3>「화내는 아이에게」 제목 수정</h3>
+          </div>
+          <p>순위 4.7위 · 노출 1,471회 · CTR 0.20%. 구글 유입 5세션 중 4세션이 38초 이내 이탈. 제목이 검색 의도(즉각적 대처법)를 담지 못하는 것이 원인.</p>
+          <div class="opp-rec" style="border-left-color:var(--red);">
+            <strong style="color:var(--red);">수정 방향:</strong> 「아이가 자꾸 화를 낸다면 — 감정 코치가 알려주는 대화법」처럼 <em>검색자가 겪고 있는 문제를 제목에 직접 담기.</em> 메타 디스크립션에도 「화 조절 방법」 「감정 표현 지도」 등 구체적 키워드 포함.
+          </div>
+        </div>
+        <div class="opp-card" style="margin-bottom:0;">
+          <div class="opp-head">
+            <span class="badge badge-gold">단기</span>
+            <h3>「엄마의 말 연습법」 구글 최적화</h3>
+          </div>
+          <p>구글 9세션 체류 22초·참여율 33% — 구글에서 어떤 키워드로 유입되는지 확인 후 그 의도에 맞게 도입부 재작성 필요. 네이버 독자(체류 81초·100%)처럼 구글 독자도 읽게 만드는 것이 목표.</p>
+          <div class="opp-rec" style="border-left-color:var(--gold);">
+            <strong style="color:var(--gold);">수정 방향:</strong> GSC에서 이 페이지 유입 키워드 확인 → 상위 키워드의 검색 의도를 글 도입부 첫 2문단에 직접 반영. 제목에 「대화법」 「말하는 법」 등 행동 키워드 추가.
+          </div>
+        </div>
+      </div>
+
+      <!-- 앵커 분산 문제 -->
+      <div class="insight gold" style="margin-bottom:24px;">
+        <strong>「미디어 학과」 소제목 앵커 4개가 각각 300~443회 노출을 분산 수집 중 — 전부 클릭 0.</strong> 같은 페이지의 소제목(#미디어학과_분류하기, #인문사회계열 등)이 별도 URL로 구글에 노출되면서 메인 페이지 클릭을 나눠 먹고 있습니다. 「거짓말 하는 아이」 「사춘기」 편도 동일 문제.<br><br>
+        <strong style="color:var(--gold);">수정 방향:</strong> 워드프레스 Rank Math 또는 Yoast에서 해당 소제목 앵커에 noindex 처리, 또는 엘리멘터 소제목 앵커 자동생성 비활성화.
+      </div>
+
+      <!-- 개선 과제 ② -->
+      <div class="sub-label" style="margin-bottom:14px;">② 구조 개선 — 콘텐츠 유형별 이탈 패턴</div>
+
+      <div class="insight" style="margin-bottom:16px;">
+        콘텐츠 유형별로 검색 유입 독자의 행동이 크게 다릅니다. 클릭을 많이 받는 유형이 반드시 잘 읽히는 유형은 아닙니다.
+      </div>
+
+      <table class="data-table" style="margin-bottom:16px;">
+        <thead>
+          <tr><th>콘텐츠 유형</th><th>검색 세션</th><th>평균 체류</th><th>평균 참여율</th><th>진단</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>moms-coaching</strong></td>
+            <td class="mono">226</td>
+            <td class="mono up-t">114초</td>
+            <td class="mono up-t">46.6%</td>
+            <td style="font-size:12px;color:var(--green);">핵심 콘텐츠. 유입·독해 모두 양호</td>
+          </tr>
+          <tr>
+            <td><strong>about-major</strong></td>
+            <td class="mono">22</td>
+            <td class="mono up-t">101초</td>
+            <td class="mono up-t">72.3%</td>
+            <td style="font-size:12px;color:var(--green);">소량이지만 참여율 최고 — 확장 가치 큼</td>
+          </tr>
+          <tr>
+            <td><strong>strategy</strong></td>
+            <td class="mono">43</td>
+            <td class="mono">75초</td>
+            <td class="mono up-t">64.7%</td>
+            <td style="font-size:12px;color:var(--green);">참여율 양호. 클릭 더 받을 여지 있음</td>
+          </tr>
+          <tr>
+            <td><strong>coaching-q-a</strong></td>
+            <td class="mono">79</td>
+            <td class="mono">80초</td>
+            <td class="mono">43.9%</td>
+            <td style="font-size:12px;color:var(--gold);">체류는 있으나 검색 유입 자체가 적음 — 제목 문제</td>
+          </tr>
+          <tr style="background:var(--red-bg);">
+            <td><strong>hot-issue</strong></td>
+            <td class="mono">10</td>
+            <td class="mono down-t">37초</td>
+            <td class="mono down-t">29.2%</td>
+            <td style="font-size:12px;color:var(--red);">가장 빠른 이탈. 제목·내용 불일치 의심</td>
+          </tr>
+          <tr style="background:var(--red-bg);">
+            <td><strong>career-roadmap</strong></td>
+            <td class="mono">60</td>
+            <td class="mono down-t">43초</td>
+            <td class="mono down-t">30.5%</td>
+            <td style="font-size:12px;color:var(--red);">노출은 압도적(54,280)인데 이탈 빠름 — 요리사 키워드 왜곡 포함</td>
+          </tr>
+          <tr style="background:var(--red-bg);">
+            <td><strong>coa-column</strong></td>
+            <td class="mono">12</td>
+            <td class="mono">68초</td>
+            <td class="mono down-t" style="font-weight:700;">12.5%</td>
+            <td style="font-size:12px;color:var(--red);">체류는 있는데 참여율 전체 최하위 — 콘텐츠 구조 문제</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-bottom:24px;">
+        <div class="opp-card" style="margin-bottom:0;">
+          <div class="opp-head">
+            <span class="badge badge-red">구조 개선</span>
+            <h3>coa-column 참여율 12.5% — 콘텐츠 구조 점검</h3>
+          </div>
+          <p>체류시간은 68초로 나쁘지 않은데 참여율이 12.5%로 전체 최하위입니다. 스크롤은 하지만 클릭(링크, 버튼)이나 추가 탐색이 없다는 뜻 — 글을 읽고 나서 다음 행동으로 이어지는 장치가 없는 구조입니다.</p>
+          <div class="opp-rec" style="border-left-color:var(--red);">
+            <strong style="color:var(--red);">수정 방향:</strong> 각 칼럼 하단에 관련 moms-coaching 기사 링크 2~3개 배치. 「이 글과 함께 읽으면 좋은 기사」 블록 추가로 내부 링크 연결 강화.
+          </div>
+        </div>
+        <div class="opp-card" style="margin-bottom:0;">
+          <div class="opp-head">
+            <span class="badge badge-gold">구조 개선</span>
+            <h3>hot-issue 체류 37초 — 도입부 재설계</h3>
+          </div>
+          <p>트렌드 콘텐츠(밈, 커미션, AI 등)는 구글 순위도 1~2위권인데 체류가 37초로 전체 최하위입니다. 검색자가 원하는 답을 글 초반에서 못 찾고 이탈하는 패턴.</p>
+          <div class="opp-rec" style="border-left-color:var(--gold);">
+            <strong style="color:var(--gold);">수정 방향:</strong> 글 도입부에 핵심 정의·요약 1문단을 먼저 배치 (역피라미드 구조). 「커미션이란?」 「밈이란?」 같은 질문을 제목 바로 아래서 즉시 답하는 형식으로 개편.
+          </div>
+        </div>
+      </div>
+
+      <!-- 개선 과제 ③ -->
+      <div class="sub-label" style="margin-bottom:14px;">③ 방치된 자산 — coaching-q-a 27개 페이지</div>
+
+      <div class="insight gold" style="margin-bottom:16px;">
+        <strong>실제로 들어온 독자는 가장 오래 읽는데, 검색으로는 거의 못 찾는 섹션입니다.</strong> Direct 유입 기준 coaching-q-a 페이지 체류시간 최장 767초 — 전체 사이트에서 가장 깊이 읽히는 콘텐츠입니다. 그런데 검색 유입은 79세션으로 적고, 「전문코치에게 물어보세요」처럼 검색 의도와 단절된 제목이 문제입니다.
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="sub-label" style="margin-bottom:10px;">현재 문제</div>
+          <table class="data-table">
+            <thead><tr><th>항목</th><th>현황</th></tr></thead>
+            <tbody>
+              <tr><td>총 페이지 수</td><td class="mono">27개</td></tr>
+              <tr><td>검색 클릭 합계</td><td class="mono down-t">16회</td></tr>
+              <tr><td>상위 2개 페이지 점유</td><td class="mono down-t">9/16 (56%)</td></tr>
+              <tr><td>클릭 0인 페이지</td><td class="mono down-t">20개 (74%)</td></tr>
+              <tr><td>최장 체류시간 (Direct)</td><td class="mono up-t">767초</td></tr>
+              <tr><td>페이지당 매핑 키워드</td><td class="mono down-t">평균 2~3개</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="opp-card" style="margin-bottom:0;">
+          <div class="opp-head">
+            <span class="badge badge-gold">중기 개선</span>
+            <h3>제목 구조 전면 개편</h3>
+          </div>
+          <p>「QA. 전문코치에게 물어보세요 1-2」는 구글이 어떤 검색 의도와 연결해야 할지 알 수 없는 제목입니다. 실제 질문 내용이 제목에 드러나야 검색에 노출됩니다.</p>
+          <div class="opp-rec" style="border-left-color:var(--gold);">
+            <strong style="color:var(--gold);">수정 방향:</strong><br>
+            현재: 「QA. 전문코치에게 물어보세요 1-2」<br>
+            변경: 「4살 아이 훈육, 어떻게 해야 할까요? — 전문코치 답변」<br><br>
+            실제 질문을 제목으로, 코칭 전문가 답변임을 부제로. 27개 전체를 이 방식으로 리타이틀링하면 coaching-q-a 섹션 전체가 검색 유입 채널로 전환 가능.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- 푸터 -->
+<!-- ══════════════════════════════════════════ -->
+<footer>
+  <div class="report-footer">
+    <div class="footer-logo">Coaching Mom</div>
+    <div class="footer-note">DATA: Google Search Console · Google Analytics 4 &nbsp;|&nbsp; GENERATED: 2026.03 &nbsp;|&nbsp; CONFIDENTIAL</div>
+  </div>
+</footer>
+
+<script>
+function toggleSection(id) {
+  const body = document.getElementById('body-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+</script>
+
+</body>
+</html>
