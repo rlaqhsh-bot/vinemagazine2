@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바인그룹 브랜드관리팀 업무 현황</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #f8f9fc;
+    --surface:  #ffffff;
+    --border:   #e4e8f0;
+    --text:     #141820;
+    --sub:      #5a6278;
+    --muted:    #9aa0b4;
+    --blue:     #2152e3;
+    --blue-lt:  #eef2fd;
+    --ok:       #16a34a;
+    --ok-lt:    #f0fdf4;
+    --warn:     #dc2626;
+    --warn-lt:  #fef2f2;
+    --mid:      #d97706;
+    --mid-lt:   #fffbeb;
+    --navy:     #0f1c3f;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    font-family: 'Noto Sans KR', 'Pretendard', sans-serif;
+    color: var(--text);
+  }
+
+  /* ── DECK ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: 52px 72px 80px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(20px);
+    overflow: hidden;
+  }
+  .slide.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .slide.exit   { opacity: 0; transform: translateY(-20px); }
+
+  /* ── NAV ── */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px; z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 18px; border-radius: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .dot.active { background: var(--blue); width: 22px; border-radius: 4px; }
+  .nav-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; padding: 2px 6px; transition: color 0.2s;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .slide-counter {
+    font-size: 11px; color: var(--muted);
+    min-width: 32px; text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── COMMON ── */
+  .slide-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 12px; font-weight: 700;
+  }
+  .slide-title {
+    font-size: clamp(26px, 3.2vw, 40px);
+    font-weight: 900; color: var(--navy); line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .slide-sub {
+    font-size: 14px; color: var(--sub); font-weight: 400; margin-bottom: 32px;
+  }
+  .divider {
+    width: 40px; height: 3px; background: var(--blue);
+    border-radius: 2px; margin-bottom: 32px;
+  }
+  .accent-bar {
+    display: inline-block; height: 3px; width: 32px;
+    background: var(--blue); border-radius: 2px; vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  /* ── SLIDE 1: COVER ── */
+  #s1 {
+    background: var(--navy);
+    justify-content: center;
+  }
+  #s1::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 85% 50%, rgba(33,82,227,0.25) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 35% at 15% 75%, rgba(33,82,227,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .grid-lines {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .cover-eyebrow {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 24px; font-weight: 600;
+  }
+  .cover-title {
+    font-size: clamp(36px, 5vw, 62px);
+    font-weight: 900; color: #fff;
+    line-height: 1.1; margin-bottom: 18px;
+  }
+  .cover-title span { color: #6b9eff; }
+  .cover-desc {
+    font-size: 16px; color: rgba(255,255,255,0.5); font-weight: 300;
+    max-width: 500px; line-height: 1.7; margin-bottom: 44px;
+  }
+  .cover-meta { display: flex; gap: 36px; }
+  .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .cover-meta-label { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 1.5px; text-transform: uppercase; }
+  .cover-meta-value { font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 600; }
+  .cover-badge {
+    position: absolute; top: 52px; right: 72px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 10px 16px;
+    font-size: 12px; color: rgba(255,255,255,0.5);
+  }
+  .cover-badge strong { color: #6b9eff; display: block; font-size: 20px; font-weight: 900; margin-bottom: 2px; }
+
+  /* ── SLIDE 2: DASHBOARD ── */
+  #s2 { background: var(--bg); }
+  .dash-table-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; margin-bottom: 20px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; padding: 12px 16px;
+    background: #f3f5fa; border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  tbody td {
+    font-size: 13px; color: var(--text); padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f8f9ff; }
+  .td-name { font-weight: 700; }
+  .td-hi { color: var(--ok); font-weight: 700; }
+  .td-warn { color: var(--warn); font-weight: 700; }
+  .td-blue { color: var(--blue); font-weight: 700; }
+  .dash-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .dash-card {
+    border-radius: 12px; padding: 16px 18px;
+    border: 1px solid transparent;
+  }
+  .dash-card-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .dash-card-text { font-size: 12px; line-height: 1.6; }
+
+  /* ── SLIDE 3: FRAME ── */
+  #s3 { background: var(--bg); }
+  .frame-flow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-bottom: 28px; position: relative;
+  }
+  .frame-flow::before {
+    content: ''; position: absolute;
+    top: 36px; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--border) 100%);
+    z-index: 0;
+  }
+  .frame-step {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .frame-step-num {
+    width: 72px; height: 72px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 900; margin-bottom: 14px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+  }
+  .frame-step-num.active-step {
+    background: var(--blue); color: #fff; border-color: var(--blue);
+    box-shadow: 0 4px 20px rgba(33,82,227,0.3);
+  }
+  .frame-step-label { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .frame-step-desc { font-size: 11px; color: var(--sub); text-align: center; line-height: 1.5; max-width: 110px; }
+  .frame-insight {
+    background: var(--navy); color: #fff;
+    border-radius: 14px; padding: 22px 28px;
+    display: flex; gap: 20px; align-items: center;
+    margin-bottom: 20px;
+  }
+  .frame-insight-icon { font-size: 32px; flex-shrink: 0; }
+  .frame-insight-text { font-size: 15px; line-height: 1.7; }
+  .frame-insight-text strong { color: #6b9eff; }
+  .frame-note {
+    background: var(--blue-lt); border-radius: 10px; padding: 14px 18px;
+    font-size: 12px; color: var(--blue); line-height: 1.6;
+    border-left: 3px solid var(--blue);
+  }
+
+  /* ── SLIDE 4: 문제진단 ── */
+  #s4 { background: var(--bg); }
+  .diag-grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; flex: 1;
+  }
+  .score-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; display: flex; flex-direction: column;
+  }
+  .score-card-title { font-size: 12px; font-weight: 700; color: var(--sub); margin-bottom: 20px; letter-spacing: 0.5px; }
+  .score-bars { display: flex; gap: 16px; align-items: flex-end; height: 100px; margin-bottom: 16px; }
+  .score-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+  .score-bar {
+    width: 100%; border-radius: 6px 6px 0 0;
+    transition: height 0.5s ease;
+  }
+  .score-bar-val { font-size: 18px; font-weight: 900; }
+  .score-bar-label { font-size: 10px; color: var(--muted); }
+  .score-summary {
+    font-size: 13px; color: var(--sub); line-height: 1.6;
+    padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  .compare-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px;
+  }
+  .compare-title { font-size: 12px; font-weight: 700; color: var(--sub); margin-bottom: 16px; }
+  .compare-row {
+    display: grid; grid-template-columns: 80px 1fr 1fr;
+    gap: 12px; margin-bottom: 10px; align-items: center;
+  }
+  .compare-row-label { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .compare-chip {
+    padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; text-align: center;
+  }
+  .chip-ok { background: var(--ok-lt); color: var(--ok); }
+  .chip-warn { background: var(--warn-lt); color: var(--warn); }
+  .chip-mid { background: var(--mid-lt); color: var(--mid); }
+  .chip-na { background: #f3f5fa; color: var(--muted); }
+  .compare-header { font-size: 13px; font-weight: 800; color: var(--text); padding: 6px 12px; }
+  .diag-summary {
+    margin-top: 16px; background: var(--navy);
+    border-radius: 10px; padding: 14px 18px;
+    font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.6;
+  }
+  .diag-summary strong { color: #6b9eff; }
+
+  /* ── SLIDE 5: 블로그별 진단 ── */
+  #s5 { background: var(--bg); }
+  .blog-diag-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; flex: 1;
+  }
+  .bcard {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .bcard-head {
+    padding: 12px 18px; display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .bcard-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+  .bcard-role { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .bcard-body { padding: 14px 18px; flex: 1; }
+  .bcard-name { font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+  .bcard-level { font-size: 11px; color: var(--sub); margin-bottom: 12px; }
+  .bcard-divider { height: 1px; background: var(--border); margin: 10px 0; }
+  .bcard-item {
+    font-size: 12px; color: var(--sub); padding: 3px 0;
+    padding-left: 12px; position: relative; line-height: 1.5;
+  }
+  .bcard-item::before {
+    content: '·'; position: absolute; left: 0; color: var(--muted);
+  }
+  .bcard-item.section {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 8px; padding-left: 0;
+  }
+  .bcard-item.section::before { display: none; }
+  .bcard-item.issue { color: var(--warn); }
+  .bcard-footer {
+    padding: 10px 18px; font-size: 11px; font-weight: 700;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SLIDE 6: 운영전략 ── */
+  #s6 { background: var(--bg); }
+  .strategy-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-bottom: 18px;
+  }
+  .strategy-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px;
+  }
+  .strategy-card-title {
+    font-size: 13px; font-weight: 800; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .strategy-ratio {
+    font-size: 28px; font-weight: 900; margin-bottom: 4px;
+  }
+  .strategy-item {
+    font-size: 12px; color: var(--sub); padding: 8px 12px;
+    background: #f8f9fc; border-radius: 8px; margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .strategy-item:last-child { margin-bottom: 0; }
+  .osmu-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px;
+  }
+  .osmu-title { font-size: 13px; font-weight: 800; margin-bottom: 14px; }
+  .osmu-flow {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .osmu-source {
+    background: var(--navy); color: #fff;
+    border-radius: 10px; padding: 10px 16px;
+    font-size: 12px; font-weight: 700; text-align: center;
+    flex-shrink: 0;
+  }
+  .osmu-arrow { color: var(--muted); font-size: 18px; flex-shrink: 0; }
+  .osmu-targets {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; flex: 1;
+  }
+  .osmu-target {
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 11px; font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .risk-box {
+    background: var(--warn-lt); border: 1px solid #fca5a5;
+    border-radius: 10px; padding: 12px 16px;
+    font-size: 12px; color: #991b1b; line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .risk-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── SLIDE 7: 로드맵 ── */
+  #s7 { background: var(--bg); }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; flex: 1; }
+  .tl-col { display: flex; flex-direction: column; }
+  .tl-header {
+    padding: 14px 16px; border-radius: 12px 12px 0 0;
+    font-size: 14px; font-weight: 800; margin-bottom: 0;
+  }
+  .tl-body {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 0 0 12px 12px; padding: 16px; flex: 1;
+  }
+  .tl-subtitle { font-size: 11px; font-weight: 700; color: var(--sub); margin-bottom: 12px; letter-spacing: 0.5px; }
+  .tl-item {
+    font-size: 12px; color: var(--sub); padding: 5px 0;
+    padding-left: 12px; position: relative; line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-item::before { content: '·'; position: absolute; left: 0; color: var(--muted); }
+  .tl-study {
+    margin-top: 10px; padding: 8px 10px;
+    border-radius: 8px; font-size: 11px; font-weight: 600;
+    background: var(--blue-lt); color: var(--blue);
+  }
+
+  /* ── SLIDE 8: PENDING ── */
+  #s8 { background: var(--bg); }
+  .pending-list { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .pending-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 22px;
+    display: flex; align-items: flex-start; gap: 18px;
+  }
+  .pending-num {
+    font-size: 22px; font-weight: 900; color: var(--border);
+    min-width: 36px; line-height: 1;
+  }
+  .pending-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .pending-desc { font-size: 12px; color: var(--sub); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ── 웹진 0: 오프닝 ── -->
+  <section class="slide active" id="wj0" style="background:var(--navy); justify-content:center;">
+    <div class="grid-lines"></div>
+    <h1 class="cover-title">
+      웹진 현황 및<br>
+      <span>개선 방향</span>
+    </h1>
+  </section>
+
+  <!-- ── 웹진 1: 업무 개요 ── -->
+  <section class="slide" id="wj1">
+    <div class="slide-label">Web Magazine</div>
+    <h2 class="slide-title">웹진 운영</h2>
+    <p class="slide-sub">코칭맘 · 바인매거진 — 2개 매체 담당</p>
+    <div class="divider"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;">
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:16px;">코칭맘</div>
+        <div style="font-size:13px; color:var(--sub); line-height:1.8;">코칭 교육 전문 웹진<br>종이책 발행 시 콘텐츠 업데이트</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;">
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--mid); margin-bottom:16px;">바인매거진</div>
+        <div style="font-size:13px; color:var(--sub); line-height:1.8;">바인그룹 기업 웹진<br>계열사 소식 · 구성원 스토리</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;">
+        <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:14px;">🖥 메인 — 사이트 운영 및 관리</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">사이트 운영 및 유지보수</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">GA4 · GSC 데이터 수집 및 월간 성과 보고</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px;">SEO 최적화 (제목 · 메타 · 내부링크)</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;">
+        <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:14px;">✏️ 서브 — 콘텐츠</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">기사 편집 · 교열 · 발행</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">필요 시 직접 제작</div>
+        <div style="font-size:12px; color:var(--mid); padding:8px 12px; background:var(--mid-lt); border-radius:8px; line-height:1.6;">월 1~2회 웹진 전용 콘텐츠 포맷 기획 — 코칭맘 콘텐츠 제작이 협회로 이관됨에 따라 협의 필요</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 웹진 2: 2월 통합 데이터 ── -->
+  <section class="slide" id="wj2">
+    <div class="slide-label">Web Magazine · Data</div>
+    <h2 class="slide-title">2월 성과 현황</h2>
+    <p class="slide-sub">코칭맘 · 바인매거진 통합 · 2026.02 기준</p>
+    <div class="divider"></div>
+
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:18px;">
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:600; padding:12px 16px; background:#f3f5fa; border-bottom:1px solid var(--border); text-align:left;"></th>
+            <th style="font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); font-weight:700; padding:12px 16px; background:#f3f5fa; border-bottom:1px solid var(--border); text-align:center;">코칭맘</th>
+            <th style="font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--mid); font-weight:700; padding:12px 16px; background:#f3f5fa; border-bottom:1px solid var(--border); text-align:center;">바인매거진</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px; border-bottom:1px solid var(--border);">총 방문자</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">1,506</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">894</td>
+          </tr>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px; border-bottom:1px solid var(--border);">검색 노출</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">105,062</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">5,030</td>
+          </tr>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px; border-bottom:1px solid var(--border);">검색 클릭</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">343</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">79</td>
+          </tr>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px; border-bottom:1px solid var(--border);">평균 순위</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">6.0위</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">8.0위</td>
+          </tr>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px; border-bottom:1px solid var(--border);">평균 CTR</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">0.33%</td>
+            <td style="font-size:15px; font-weight:900; color:var(--text); padding:11px 16px; border-bottom:1px solid var(--border); text-align:center;">1.57%</td>
+          </tr>
+          <tr>
+            <td style="font-size:12px; color:var(--muted); font-weight:600; padding:11px 16px;">AI 유입</td>
+            <td style="font-size:15px; font-weight:900; color:var(--ok); padding:11px 16px; text-align:center;">22세션 ▲175%</td>
+            <td style="font-size:15px; font-weight:900; color:var(--ok); padding:11px 16px; text-align:center;">7세션 ▲17%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div style="background:var(--blue-lt); border:1px solid #bfdbfe; border-radius:12px; padding:16px 18px;">
+        <div style="font-size:11px; font-weight:800; color:var(--blue); margin-bottom:8px;">코칭맘 핵심 진단</div>
+        <div style="font-size:12px; color:#1e40af; line-height:1.7;">학부모 고민 관련 콘텐츠(자녀 심리·대화법) 유입 증가 — 핵심 독자층 수요 확인</div>
+      </div>
+      <div style="background:var(--mid-lt); border:1px solid #fde68a; border-radius:12px; padding:16px 18px;">
+        <div style="font-size:11px; font-weight:800; color:var(--mid); margin-bottom:8px;">바인매거진 핵심 진단</div>
+        <div style="font-size:12px; color:#92400e; line-height:1.7;">브랜드 키워드 850회 노출, 클릭 전환율 0.5% — 노출 대비 클릭 전환 구조 개선 필요</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 웹진 3: AI 활용 워크플로우 ── -->
+  <section class="slide" id="wj3">
+    <div class="slide-label">Web Magazine · Workflow</div>
+    <h2 class="slide-title">AI 활용 운영 워크플로우</h2>
+    <p class="slide-sub">데이터 추출 자동화 → 보고서 생성 → 인사이트 도출 → 적용</p>
+    <div class="divider"></div>
+
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px;">
+      <div style="background:var(--navy); color:#fff; border-radius:14px; padding:20px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:10px;">⚙️</div>
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">데이터 추출</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.6); line-height:1.6;">GA4 · GSC<br>Python 자동화<br>매월 정기 수집</div>
+      </div>
+      <div style="background:var(--blue); color:#fff; border-radius:14px; padding:20px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:10px;">🤖</div>
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">AI 분석</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.8); line-height:1.6;">보고서 자동 생성<br>이상치 탐지<br>패턴 분석</div>
+      </div>
+      <div style="background:var(--ok); color:#fff; border-radius:14px; padding:20px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:10px;">💡</div>
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">인사이트 도출</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.8); line-height:1.6;">키워드 기회 발굴<br>콘텐츠 방향 제안<br>SEO 개선 포인트</div>
+      </div>
+      <div style="background:var(--mid); color:#fff; border-radius:14px; padding:20px; text-align:center;">
+        <div style="font-size:24px; margin-bottom:10px;">🚀</div>
+        <div style="font-size:12px; font-weight:800; margin-bottom:8px;">적용 · 검증</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.8); line-height:1.6;">콘텐츠 기획 반영<br>SEO 수정 적용<br>다음 달 효과 확인</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 24px;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:14px;">📌 현재 적용 현황</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="font-size:12px; color:var(--sub); padding:8px 14px; background:#f8f9fc; border-radius:8px; border-left:3px solid var(--blue);">GSC · GA4 → Python 자동 수집 파이프라인 구축 (v7)</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 14px; background:#f8f9fc; border-radius:8px; border-left:3px solid var(--ok);">AI 보고서 기반 콘텐츠 기획 힌트 월간 제공</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 14px; background:#f8f9fc; border-radius:8px; border-left:3px solid var(--mid);">키워드 클러스터링 · CTR 기회 분석 자동화</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 14px; background:#f8f9fc; border-radius:8px; border-left:3px solid var(--navy);">코칭맘 · 바인매거진 2개 사이트 통합 관리</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 웹진 4: SEO / AEO ── -->
+  <section class="slide" id="wj4">
+    <div class="slide-label">Web Magazine · Strategy</div>
+    <h2 class="slide-title">SEO / AEO 개선 방향</h2>
+    <p class="slide-sub">검색엔진 최적화 · AI 검색엔진 최적화</p>
+    <div class="divider"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; flex:1;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+        <div style="font-size:13px; font-weight:800; color:var(--navy); margin-bottom:16px;">🔍 SEO</div>
+        <div style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">현재 이슈</div>
+        <div style="font-size:12px; color:var(--warn); padding:8px 12px; background:var(--warn-lt); border-radius:8px; margin-bottom:8px;">핵심 시리즈 클릭 하락 → 제목이 검색 의도와 불일치</div>
+        <div style="font-size:12px; color:var(--warn); padding:8px 12px; background:var(--warn-lt); border-radius:8px; margin-bottom:16px;">키워드 자기잠식 — 동일 키워드 경쟁 페이지 다수</div>
+        <div style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">개선 방향</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">핵심 시리즈 제목 검색 의도 기반으로 수정</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">앵커 페이지 지정 → 내부링크 집중</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px;">Q&A 콘텐츠 27개 제목 리타이틀링</div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+        <div style="font-size:13px; font-weight:800; color:var(--navy); margin-bottom:16px;">🤖 AEO <span style="font-size:10px; font-weight:400; color:var(--muted);">AI Engine Optimization</span></div>
+        <div style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">현재 현황</div>
+        <div style="font-size:12px; color:var(--ok); padding:8px 12px; background:var(--ok-lt); border-radius:8px; margin-bottom:8px;">Claude · Gemini 코칭맘 신규 유입 확인 — AI가 이미 추천 중</div>
+        <div style="font-size:12px; color:var(--ok); padding:8px 12px; background:var(--ok-lt); border-radius:8px; margin-bottom:16px;">Claude 유입 참여율 80% — AI 추천 독자가 가장 깊이 읽음</div>
+        <div style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px;">개선 방향</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">질문·답변 형식 콘텐츠 구조 강화</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px;">명확한 정의·핵심 요약을 글 앞부분에 배치</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 언론 0: 오프닝 ── -->
+  <section class="slide" id="pr0" style="background:var(--navy); justify-content:center;">
+    <div class="grid-lines"></div>
+    <h1 class="cover-title">
+      포커스타임즈<br>
+      <span>개선 방향</span>
+    </h1>
+  </section>
+
+  <!-- ── 언론 1: 현황 + 방향 ── -->
+  <section class="slide" id="pr1">
+    <div class="slide-label">Press</div>
+    <h2 class="slide-title">언론 기고 방향</h2>
+    <p class="slide-sub">포커스타임즈 · 기획기사 중심으로 전환</p>
+    <div class="divider"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+        <div style="font-size:12px; font-weight:800; color:var(--muted); margin-bottom:14px;">현재</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">보도자료 기반 스트레이트 기사 중심</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px;">종종 기획기사 작성</div>
+      </div>
+      <div style="background:var(--blue-lt); border:1px solid #bfdbfe; border-radius:14px; padding:22px;">
+        <div style="font-size:12px; font-weight:800; color:var(--blue); margin-bottom:14px;">앞으로</div>
+        <div style="font-size:12px; color:#1e40af; padding:8px 12px; background:#fff; border-radius:8px; margin-bottom:8px; font-weight:600;">기획기사 · 오피니언 비중 확대</div>
+        <div style="font-size:12px; color:#1e40af; padding:8px 12px; background:#fff; border-radius:8px; margin-bottom:8px; font-weight:600;">LLM 딥리서치 활용 — 데이터 · 이론 · 사회현상 연계</div>
+        <div style="font-size:12px; color:#1e40af; padding:8px 12px; background:#fff; border-radius:8px; font-weight:600;">주 1회 기획기사 제작 목표</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:16px;">📎 실제 기획 사례 — 「공부는 왜 어렵나」 18편 시리즈</div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;">
+        <div style="border-radius:10px; padding:14px; background:var(--blue-lt); border:1px solid #bfdbfe;">
+          <div style="font-size:10px; font-weight:800; color:var(--blue); margin-bottom:8px; letter-spacing:0.5px;">1부 · 뇌와 신체</div>
+          <div style="font-size:11px; color:#1e40af; line-height:1.6;">"의지가 아니라<br>구조의 문제다"<br><span style="color:var(--muted);">4편</span></div>
+        </div>
+        <div style="border-radius:10px; padding:14px; background:var(--ok-lt); border:1px solid #bbf7d0;">
+          <div style="font-size:10px; font-weight:800; color:var(--ok); margin-bottom:8px; letter-spacing:0.5px;">2부 · 기억과 집중</div>
+          <div style="font-size:11px; color:#166534; line-height:1.6;">"공부했는데<br>왜 모를까"<br><span style="color:var(--muted);">4편</span></div>
+        </div>
+        <div style="border-radius:10px; padding:14px; background:var(--warn-lt); border:1px solid #fca5a5;">
+          <div style="font-size:10px; font-weight:800; color:var(--warn); margin-bottom:8px; letter-spacing:0.5px;">3부 · 심리와 동기</div>
+          <div style="font-size:11px; color:#991b1b; line-height:1.6;">"할 수 없다고<br>느끼는 것"<br><span style="color:var(--muted);">6편</span></div>
+        </div>
+        <div style="border-radius:10px; padding:14px; background:var(--mid-lt); border:1px solid #fde68a;">
+          <div style="font-size:10px; font-weight:800; color:var(--mid); margin-bottom:8px; letter-spacing:0.5px;">4부 · 학습법</div>
+          <div style="font-size:11px; color:#92400e; line-height:1.6;">"어떻게 공부하느냐가<br>전부다"<br><span style="color:var(--muted);">4편</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 소세지 0: 오프닝 ── -->
+  <section class="slide" id="ss0" style="background:var(--navy); justify-content:center;">
+    <div class="grid-lines"></div>
+    <h1 class="cover-title">
+      소세지<br>
+      <span>콘텐츠 기획</span>
+    </h1>
+  </section>
+
+  <!-- ── 소세지 1: 소개 + 방향 ── -->
+  <section class="slide" id="ss1">
+    <div class="slide-label">Sausage · Shorts Content</div>
+    <h2 class="slide-title">소세지 — 콘텐츠 소개 및 방향</h2>
+    <p class="slide-sub">공부해서 니줄라꼬 채널 · 1분 쇼츠 포맷</p>
+    <div class="divider"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+        <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:14px;">📺 콘텐츠 소개</div>
+        <div style="font-size:13px; color:var(--sub); line-height:1.8; margin-bottom:14px;">사람들이 무심코 지나치거나<br>생각하지 못한 것들을<br>1분 안에 풀어내는 쇼츠 포맷</div>
+        <div style="height:1px; background:var(--border); margin-bottom:14px;"></div>
+        <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:10px;">역할 분담</div>
+        <div style="font-size:12px; color:var(--blue); padding:8px 12px; background:var(--blue-lt); border-radius:8px; margin-bottom:8px; font-weight:600;">주제 선정 · 기획 · 스크립트 제작</div>
+        <div style="font-size:12px; color:var(--sub); padding:8px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px;">영상 제작 — 외주</div>
+        <div style="font-size:12px; color:var(--muted); padding:8px 12px; background:#f8f9fc; border-radius:8px;">제작 진행 방식 — 추후 논의 예정</div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;">
+        <div style="font-size:12px; font-weight:800; color:var(--navy); margin-bottom:14px;">🔍 아이템 수집 방향</div>
+        <div style="font-size:12px; color:var(--sub); padding:10px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px; line-height:1.6;">
+          <span style="font-weight:700; color:var(--text);">일상 관찰</span><br>
+          커뮤니티 · SNS 트렌드 파악 및 수집
+        </div>
+        <div style="font-size:12px; color:var(--sub); padding:10px 12px; background:#f8f9fc; border-radius:8px; margin-bottom:8px; line-height:1.6;">
+          <span style="font-weight:700; color:var(--text);">데이터 기반</span><br>
+          구글 트렌드 · 네이버 실시간 — 사람들이 갑자기 검색하는 것
+        </div>
+        <div style="font-size:12px; color:var(--sub); padding:10px 12px; background:#f8f9fc; border-radius:8px; line-height:1.6;">
+          <span style="font-weight:700; color:var(--text);">LLM 브레인스토밍</span><br>
+          "당연하게 여기지만 사실 이상한 것들" 발굴
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--navy); border-radius:12px; padding:16px 22px; font-size:13px; color:rgba(255,255,255,0.75); line-height:1.7;">
+      소재의 제한 없음 — 시시콜콜한 모든 것이 콘텐츠가 될 수 있다는 것이 이 포맷의 강점
+    </div>
+  </section>
+
+  <!-- ── SLIDE 1: 표지 ── -->
+  <section class="slide" id="s1">
+    <div class="grid-lines"></div>
+    <h1 class="cover-title">
+      블로그 현황 및<br>
+      <span>개선 방향</span>
+    </h1>
+  </section>
+
+  <!-- ── SLIDE 2: 현황 대시보드 ── -->
+  <section class="slide" id="s2">
+    <div class="slide-label">Dashboard</div>
+    <h2 class="slide-title">4개 채널 통합 현황</h2>
+    <p class="slide-sub">2026년 2월 기준 · 파편화된 보고서를 동일 지표로 재구성</p>
+    <div class="divider"></div>
+
+    <div class="dash-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>채널명</th>
+            <th>월 조회수</th>
+            <th>평균 체류시간</th>
+            <th>재방문율</th>
+            <th>이웃 수</th>
+            <th>블로그 등급</th>
+            <th>대행사 상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">와와학습코칭센터</td>
+            <td class="td-hi">10,489</td>
+            <td>2분 38초</td>
+            <td>1.7%</td>
+            <td>1,179</td>
+            <td>NB3 (최적화)</td>
+            <td>공생마케팅 · 운영 중</td>
+          </tr>
+          <tr>
+            <td class="td-name">상상코칭</td>
+            <td>760</td>
+            <td>2분 46초</td>
+            <td>3.5%</td>
+            <td>2,304</td>
+            <td class="td-blue">준최6-Lv.1</td>
+            <td class="td-warn">모두의마케팅 · 계약 종료 🚨</td>
+          </tr>
+          <tr>
+            <td class="td-name">바인그룹</td>
+            <td>607</td>
+            <td>4분 00초</td>
+            <td>3.5%</td>
+            <td>439</td>
+            <td>파악 중</td>
+            <td>모두의마케팅 · 재계약 완료</td>
+          </tr>
+          <tr>
+            <td class="td-name">모두오름학습코칭센터</td>
+            <td>133</td>
+            <td class="td-hi">7분 08초</td>
+            <td class="td-hi">13.0%</td>
+            <td>37</td>
+            <td>준최3-Lv.2</td>
+            <td>공생마케팅 · 운영 중</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dash-cards">
+      <div class="dash-card" style="background: var(--ok-lt); border-color: #bbf7d0;">
+        <div class="dash-card-label" style="color: var(--ok);">📊 Volume — 와와</div>
+        <div class="dash-card-text" style="color: #166534;">그룹 트래픽을 견인하는 유일한 채널. 현재 정상 작동 중.</div>
+      </div>
+      <div class="dash-card" style="background: var(--blue-lt); border-color: #bfdbfe;">
+        <div class="dash-card-label" style="color: var(--blue);">⚡ Potential — 상상코칭</div>
+        <div class="dash-card-text" style="color: #1e40af;">9년 누적 자산 보유. 대행사 공백 수습 시 가장 빠른 성과 채널.</div>
+      </div>
+      <div class="dash-card" style="background: var(--mid-lt); border-color: #fde68a;">
+        <div class="dash-card-label" style="color: var(--mid);">🌱 Loyalty — 모두오름</div>
+        <div class="dash-card-text" style="color: #92400e;">체류 7분, 재방문 13%. 소수 정예 팬덤 가능성.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 3: 분석 프레임 ── -->
+  <section class="slide" id="s3">
+    <div class="slide-label">Framework</div>
+    <h2 class="slide-title">데이터를 본 기준</h2>
+    <p class="slide-sub">블로그 성과를 이 흐름으로 읽었습니다</p>
+    <div class="divider"></div>
+
+    <div class="frame-flow">
+      <div class="frame-step">
+        <div class="frame-step-num active-step">🔍</div>
+        <div class="frame-step-label">노출</div>
+        <div class="frame-step-desc">블로그 지수<br>발행 빈도<br>키워드</div>
+      </div>
+      <div class="frame-step">
+        <div class="frame-step-num active-step">👆</div>
+        <div class="frame-step-label">클릭</div>
+        <div class="frame-step-desc">제목·썸네일<br>검색 의도<br>적합성</div>
+      </div>
+      <div class="frame-step">
+        <div class="frame-step-num">⏱</div>
+        <div class="frame-step-label">체류</div>
+        <div class="frame-step-desc">글 구조<br>정보 밀도<br>읽기 편의</div>
+      </div>
+      <div class="frame-step">
+        <div class="frame-step-num">💬</div>
+        <div class="frame-step-label">반응</div>
+        <div class="frame-step-desc">공감·댓글<br>재방문<br>상담 전환</div>
+      </div>
+    </div>
+
+    <div class="frame-insight">
+      <div class="frame-insight-icon">📌</div>
+      <div class="frame-insight-text">
+        현재 4개 채널 모두 <strong>노출까지는 가고 있습니다.</strong><br>
+        문제는 그 다음 — <strong>클릭과 체류 단계에서 이탈이 발생</strong>하는 구조입니다.
+      </div>
+    </div>
+
+    <div class="frame-note">
+      대행사는 지수 관리(노출)를 잘 해왔습니다. 관리자가 채워야 할 영역은 <strong>클릭 이후</strong>입니다.
+    </div>
+  </section>
+
+  <!-- ── SLIDE 4: 문제 진단 ── -->
+  <section class="slide" id="s4">
+    <div class="slide-label">Diagnosis</div>
+    <h2 class="slide-title">노출은 되는데, 선택받지 못한다</h2>
+    <p class="slide-sub">4개 채널 — 노출 · 클릭 · 체류 · 반응 흐름 비교</p>
+    <div class="divider"></div>
+
+    <!-- 채널 헤더 -->
+    <div style="display:grid; grid-template-columns: 90px 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:10px;">
+      <div></div>
+      <div style="text-align:center; font-size:12px; font-weight:800; color:var(--ok); background:var(--ok-lt); border-radius:10px; padding:10px 6px; line-height:1.5;">
+        와와학습코칭센터<br><span style="font-size:10px; font-weight:400;">NB3 · 조회 10,489</span>
+      </div>
+      <div style="text-align:center; font-size:12px; font-weight:800; color:var(--warn); background:var(--warn-lt); border-radius:10px; padding:10px 6px; line-height:1.5;">
+        상상코칭<br><span style="font-size:10px; font-weight:400;">준최6 · 조회 760</span>
+      </div>
+      <div style="text-align:center; font-size:12px; font-weight:800; color:var(--blue); background:var(--blue-lt); border-radius:10px; padding:10px 6px; line-height:1.5;">
+        바인그룹<br><span style="font-size:10px; font-weight:400;">파악 중 · 조회 607</span>
+      </div>
+      <div style="text-align:center; font-size:12px; font-weight:800; color:var(--mid); background:var(--mid-lt); border-radius:10px; padding:10px 6px; line-height:1.5;">
+        모두오름<br><span style="font-size:10px; font-weight:400;">준최3 · 조회 133</span>
+      </div>
+    </div>
+
+    <!-- 노출 -->
+    <div style="display:grid; grid-template-columns: 90px 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:8px; align-items:center;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy);">🔍 노출</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 정상</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 정상</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 정상</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 정상</div>
+    </div>
+
+    <!-- 클릭 -->
+    <div style="display:grid; grid-template-columns: 90px 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:8px; align-items:center;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy);">👆 클릭</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 정상</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 약함</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 브랜드 유입 중심</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 소규모</div>
+    </div>
+
+    <!-- 체류 -->
+    <div style="display:grid; grid-template-columns: 90px 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:8px; align-items:center;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy);">⏱ 체류</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 2분 38초</div>
+      <div class="compare-chip chip-warn" style="padding:12px 8px; font-size:12px; text-align:center;">❌ 2분 46초<br>이탈 구조</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center;">✅ 4분 00초</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center; font-weight:800;">✅ 7분 08초 🏆</div>
+    </div>
+
+    <!-- 반응 -->
+    <div style="display:grid; grid-template-columns: 90px 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:18px; align-items:center;">
+      <div style="font-size:12px; font-weight:800; color:var(--navy);">💬 반응</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 재방문 1.7%</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 재방문 3.5%</div>
+      <div class="compare-chip chip-mid" style="padding:12px 8px; font-size:12px; text-align:center;">△ 재방문 3.5%</div>
+      <div class="compare-chip chip-ok" style="padding:12px 8px; font-size:12px; text-align:center; font-weight:800;">✅ 재방문 13% 🏆</div>
+    </div>
+
+    <div class="diag-summary">
+      노출은 4개 채널 모두 작동 중입니다. 문제는 <strong>클릭 이후</strong>입니다.<br>
+      체류·반응 편차가 보여주는 건 콘텐츠 개별 품질이 아니라 — <strong>방향 기준 없이 맡겨진 운영 구조</strong>입니다.
+    </div>
+  </section>
+
+    <!-- ── SLIDE 5: 블로그별 진단 ── -->
+  <section class="slide" id="s5">
+    <div class="slide-label">Channel Diagnosis</div>
+    <h2 class="slide-title">블로그별 진단</h2>
+    <p class="slide-sub">채널별 현황 · 이슈 · 관리 방향</p>
+    <div class="divider"></div>
+
+    <div class="blog-diag-grid">
+      <!-- 와와 -->
+      <div class="bcard" style="border-color: rgba(22,163,74,0.3);">
+        <div class="bcard-head" style="background: var(--ok-lt);">
+          <span class="bcard-tag" style="color:var(--ok);">✅ 안정</span>
+          <span class="bcard-role">관여도 낮음</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-name">와와학습코칭센터</div>
+          <div class="bcard-level">NB3 등급 · 종합 78.90점</div>
+          <div class="bcard-divider"></div>
+          <div class="bcard-item">월 조회수 10,489 — 그룹 트래픽 견인</div>
+          <div class="bcard-item">구글 유입 15%, 충성 독자층 형성</div>
+          <div class="bcard-item">주요 독자: 40~49세 여성</div>
+          <div class="bcard-item">공생마케팅 안정 운영 중</div>
+          <div class="bcard-item section">이슈</div>
+          <div class="bcard-item issue">AI 생성 후기 콘텐츠 5개 확인 → 품질 기준 재정립 필요</div>
+          <div class="bcard-item section">전략</div>
+          <div class="bcard-item">실제 학생 후기·수업 사례 콘텐츠 수집 및 활용</div>
+        </div>
+        <div class="bcard-footer" style="color:var(--ok); background: var(--ok-lt);">현행 유지 + 품질 모니터링</div>
+      </div>
+
+      <!-- 상상코칭 -->
+      <div class="bcard" style="border-color: rgba(220,38,38,0.35);">
+        <div class="bcard-head" style="background: var(--warn-lt);">
+          <span class="bcard-tag" style="color:var(--warn);">🚨 긴급</span>
+          <span class="bcard-role">관여도 높음</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-name">상상코칭</div>
+          <div class="bcard-level">준최6-Lv.1 · 노출 98.07 · 콘텐츠 59.76⚠</div>
+          <div class="bcard-divider"></div>
+          <div class="bcard-item">9년 누적 자산: 이웃 2,304명</div>
+          <div class="bcard-item">주요 독자: 40~49세 여성</div>
+          <div class="bcard-item">대행사 계약 종료 → 콘텐츠 공백 상태</div>
+          <div class="bcard-item section">이슈</div>
+          <div class="bcard-item issue">콘텐츠·빈도 급락 → 레벨 하락 위험</div>
+          <div class="bcard-item issue">죽은 카테고리 다수 / 비틀리 링크 교체 필요</div>
+          <div class="bcard-item section">전략</div>
+          <div class="bcard-item">정보글 → 상상코칭 서비스 전환 연결</div>
+        </div>
+        <div class="bcard-footer" style="color:var(--warn); background: var(--warn-lt);">대행사 수습 + 콘텐츠 방향 재설정</div>
+      </div>
+
+      <!-- 바인그룹 -->
+      <div class="bcard" style="border-color: rgba(33,82,227,0.3);">
+        <div class="bcard-head" style="background: var(--blue-lt);">
+          <span class="bcard-tag" style="color:var(--blue);">📋 방향 설정</span>
+          <span class="bcard-role">관여도 중간</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-name">바인그룹</div>
+          <div class="bcard-level">블로그 지수 파악 중</div>
+          <div class="bcard-divider"></div>
+          <div class="bcard-item">계열사 통합 홍보 채널</div>
+          <div class="bcard-item">카테고리 구조가 바인매거진(웹진)과 동일 → 재설계 필요</div>
+          <div class="bcard-item">핵심 독자: 40~49세 여성</div>
+          <div class="bcard-item section">4월 예정</div>
+          <div class="bcard-item">스킨 교체 + 카테고리 개편</div>
+          <div class="bcard-item">모두의마케팅에 방향 직접 전달</div>
+        </div>
+        <div class="bcard-footer" style="color:var(--blue); background: var(--blue-lt);">방향 설정 및 대행사 디렉팅</div>
+      </div>
+
+      <!-- 모두오름 -->
+      <div class="bcard" style="border-color: rgba(217,119,6,0.3);">
+        <div class="bcard-head" style="background: var(--mid-lt);">
+          <span class="bcard-tag" style="color:var(--mid);">🌱 육성</span>
+          <span class="bcard-role">관여도 중간</span>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-name">모두오름학습코칭센터</div>
+          <div class="bcard-level">준최3-Lv.2 · 종합 80.81점</div>
+          <div class="bcard-divider"></div>
+          <div class="bcard-item">2025.09 개설 — 운영 6개월 초기 단계</div>
+          <div class="bcard-item">지수 빠르게 상승 중</div>
+          <div class="bcard-item">재방문율 13% — 4개 채널 중 최고</div>
+          <div class="bcard-item">주요 독자: 35~44세 남성 <span style="color:var(--muted); font-size:11px;">(초기 데이터, 변동 가능)</span></div>
+          <div class="bcard-item section">방향</div>
+          <div class="bcard-item">지점별 수업 사례·운영 스토리 수집</div>
+          <div class="bcard-item">소재 대행사(공생마케팅)에 공급</div>
+        </div>
+        <div class="bcard-footer" style="color:var(--mid); background: var(--mid-lt);">지점 소재 수집 → 대행사 공급</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 6: 운영 전략 ── -->
+  <section class="slide" id="s6">
+    <div class="slide-label">Strategy</div>
+    <h2 class="slide-title">운영 전략</h2>
+    <p class="slide-sub">8:2 협업 체계 + OSMU 연계 가능성 검토</p>
+    <div class="divider"></div>
+
+    <div class="strategy-grid">
+      <div class="strategy-card" style="border-color: var(--border);">
+        <div class="strategy-card-title">
+          🔧 대행사 영역
+          <span style="font-size:11px; color:var(--muted); font-weight:400;">80%</span>
+        </div>
+        <div class="strategy-ratio" style="color:var(--muted);">80%</div>
+        <div class="strategy-item">지수 유지용 정기 포스팅 (물량 중심)</div>
+        <div class="strategy-item">네이버 알고리즘 변화 모니터링</div>
+        <div class="strategy-item">일상·정보성 콘텐츠 업로드</div>
+      </div>
+
+      <div class="strategy-card" style="border-color: rgba(33,82,227,0.3); background: var(--blue-lt);">
+        <div class="strategy-card-title" style="color:var(--blue);">
+          🖋 관리자 영역
+          <span style="font-size:11px; color:var(--blue); font-weight:400;">20%</span>
+        </div>
+        <div class="strategy-ratio" style="color:var(--blue);">20%</div>
+        <div class="strategy-item" style="background:#fff; color:#1e40af; font-weight:600;">채널별 콘텐츠 방향 기준 수립</div>
+        <div class="strategy-item" style="background:#fff; color:#1e40af; font-weight:600;">대행사 원고 검수 및 브랜드 톤 교정</div>
+        <div class="strategy-item" style="background:#fff; color:#1e40af; font-weight:600;">핵심 킬러 콘텐츠 직접 기획</div>
+      </div>
+    </div>
+
+    <div class="osmu-card">
+      <div class="osmu-title">📎 OSMU 연계 — 검토 중 (확정 아님)</div>
+      <div class="osmu-flow">
+        <div class="osmu-source">사내 콘텐츠<br>소스 연계</div>
+        <div class="osmu-arrow">→</div>
+        <div class="osmu-targets">
+          <div class="osmu-target" style="background:var(--ok-lt); border-color:#bbf7d0; color:var(--ok);">와와 · 현장/지점 톤</div>
+          <div class="osmu-target" style="background:var(--blue-lt); border-color:#bfdbfe; color:var(--blue);">상상 · 공감/과외 톤</div>
+          <div class="osmu-target" style="background:var(--mid-lt); border-color:#fde68a; color:var(--mid);">모두오름 · 습관/정보 톤</div>
+          <div class="osmu-target" style="background:#f3f5fa; color:var(--sub);">바인 · 신뢰/뉴스 톤</div>
+        </div>
+      </div>
+      <div class="risk-box">
+        <div class="risk-icon">⚠️</div>
+        <div>
+          <strong>리스크 인지 사항</strong> — 동일 소스를 복수 채널에 활용 시 네이버 중복 콘텐츠 필터링 위험 있음. 단순 복붙이 아닌 채널별 완전 재작성 전제. 또한 사내 타 부서 소스 활용은 <strong>부서 간 협의 선행 필요</strong>. 현 단계에서는 검토 중이며 실행 전 승인 절차 거칠 예정.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 7: 향후 계획 ── -->
+  <section class="slide" id="s7">
+    <div class="slide-label">Roadmap</div>
+    <h2 class="slide-title">향후 운영 계획</h2>
+    <p class="slide-sub">3월 말 ~ 6월 이후</p>
+    <div class="divider"></div>
+
+    <div class="timeline">
+      <div class="tl-col">
+        <div class="tl-header" style="background:#f3f5fa; color:var(--sub);">3월 말</div>
+        <div class="tl-body">
+          <div class="tl-subtitle">인프라 정비</div>
+          <div class="tl-item">4개 블로그 관리 루틴 세팅</div>
+          <div class="tl-item">상상코칭 공백기 대안 찾기</div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-header" style="background:var(--blue); color:#fff;">4월</div>
+        <div class="tl-body" style="border-color: rgba(33,82,227,0.3);">
+          <div class="tl-subtitle">방향 설정</div>
+          <div class="tl-item">바인그룹 스킨·카테고리 개편 전달</div>
+          <div class="tl-item">상상코칭 채널 방향 설정</div>
+          <div class="tl-item">카테고리·비틀리 링크 정비</div>
+          <div class="tl-item">보고서 수령 체계 정비</div>
+          <div class="tl-study">▶ 네이버 SEO 기초 학습</div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-header" style="background:var(--ok); color:#fff;">5월</div>
+        <div class="tl-body" style="border-color: rgba(22,163,74,0.3);">
+          <div class="tl-subtitle">안정화</div>
+          <div class="tl-item">4개 피드백 루틴 안착</div>
+          <div class="tl-item">개별 콘텐츠 직접 제작</div>
+          <div class="tl-study">▶ 대행사 디렉팅 스킬 학습</div>
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-header" style="background:var(--mid); color:#fff;">6월~</div>
+        <div class="tl-body" style="border-color: rgba(217,119,6,0.3);">
+          <div class="tl-subtitle">고도화</div>
+          <div class="tl-item">분기별 통합 성과 보고 체계 수립</div>
+          <div class="tl-item">채널별 성과 지표 재정의</div>
+          <div class="tl-item">OSMU 연계 타당성 최종 검토</div>
+          <div class="tl-study">▶ 콘텐츠 기획 학습</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 엔딩 ── -->
+  <section class="slide" id="ending" style="background:var(--navy); justify-content:center; align-items:center;">
+    <div class="grid-lines"></div>
+    <h1 class="cover-title" style="text-align:center;">
+      감사합니다
+    </h1>
+  </section>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn">←</button>
+  <button class="dot active" data-index="0"></button>
+  <button class="dot" data-index="1"></button>
+  <button class="dot" data-index="2"></button>
+  <button class="dot" data-index="3"></button>
+  <button class="dot" data-index="4"></button>
+  <button class="dot" data-index="5"></button>
+  <button class="dot" data-index="6"></button>
+  <button class="dot" data-index="7"></button>
+  <button class="dot" data-index="8"></button>
+  <button class="dot" data-index="9"></button>
+  <button class="dot" data-index="10"></button>
+  <button class="dot" data-index="11"></button>
+  <button class="dot" data-index="12"></button>
+  <button class="dot" data-index="13"></button>
+  <button class="dot" data-index="14"></button>
+  <button class="dot" data-index="15"></button>
+  <button class="dot" data-index="16"></button>
+  <button class="nav-btn" id="nextBtn">→</button>
+  <span class="slide-counter" id="counter">1 / 17</span>
+</div>
+
+<script>
+  const slides  = document.querySelectorAll('.slide');
+  const dots    = document.querySelectorAll('.dot');
+  const counter = document.getElementById('counter');
+  let cur = 0;
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    setTimeout(() => slides[cur].classList.remove('exit'), 400);
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+    counter.textContent = `${cur + 1} / ${slides.length}`;
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(cur + 1));
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(cur - 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(cur + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(cur - 1);
+  });
+</script>
+</body>
+</html>
